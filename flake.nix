@@ -32,8 +32,7 @@
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = [ pkgs.bashInteractive ];
           packages = pkgs.lib.attrVals [ "nodejs-14_x" "playwright-test" ] pkgs ++ [ box ];
+          PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
         };
-
-        PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
       });
 }
