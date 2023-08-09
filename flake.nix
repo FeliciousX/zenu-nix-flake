@@ -23,14 +23,17 @@
               maven = super.maven.override { inherit jdk; };
             })
         ];
-        pkgs = import nixpkgs { inherit overlays system; };
+        pkgs = import nixpkgs {
+          inherit overlays system;
+          config.permittedInsecurePackages = [ "nodejs-14.21.3" "openssl-1.1.1v" ];
+        };
         box = commandbox.packages.${system}.default;
       in {
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = [ pkgs.bashInteractive ];
           packages = pkgs.lib.attrVals [ "nodejs-14_x" "playwright-test" ] pkgs ++ [ box ];
-
-					PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
         };
+
+        PLAYWRIGHT_BROWSERS_PATH="${pkgs.playwright-driver.browsers}";
       });
 }
